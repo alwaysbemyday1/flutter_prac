@@ -32,53 +32,32 @@ class MyApp extends StatelessWidget {
           ],
         ),
         body: Container(
-          child: Column(
+          height: 150,
+          padding: EdgeInsets.all(10),
+          child: Row(
             children: [
-              Row(
-                children: [
-                  SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Image.asset('toni_erdmann.jpeg',),
-                  ),
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          child: Text(
-                            maxLines: 2,overflow : TextOverflow.ellipsis,
-                            '캐논 DSLR 100D (단렌즈, 충전기 16기가 SD 포함', textAlign: TextAlign.left,),
-                        )
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            Container(child: Text('성동구 행당동', textAlign: TextAlign.left,)),
-                            Container(child: Text('끌올 10분 전', textAlign: TextAlign.left,)),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(child: Text('210,000원', textAlign: TextAlign.left,))),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(child: Icon(Icons.heart_broken)),
-                            Container(child: Text('4'))
-                          ],
-                        ),
-                      )
-                    ],
-                      )
-                    ],
-                  ),
-            ]
-          )
+              Image.asset('toni_erdmann.jpeg', width: 100, height: 100,),
+              Container(
+                width: 300,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('카메라 팝니다', style: TextStyle(),
+                    ),
+                    Text('금호동 3가'),
+                    Text('7000원'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(Icons.favorite),
+                        Text('4')
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
         bottomNavigationBar: BottomAppBar(
           child: SizedBox(
