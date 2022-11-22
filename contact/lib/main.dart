@@ -10,7 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Image.asset('toni_erdmann.jpeg'),
+      home: Scaffold(
+        appBar: AppBar(),
+        body: SizedBox(),
+        bottomNavigationBar: BottomAppBar(child: Text('bottom'), color: Colors.greenAccent),
+      ),
     );
   }
 }
