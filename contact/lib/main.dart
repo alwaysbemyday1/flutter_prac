@@ -32,28 +32,33 @@ class MyApp extends StatelessWidget {
           ],
         ),
         body: Container(
-          height: 150,
-          padding: EdgeInsets.all(10),
+          height: 120,
+          padding: EdgeInsets.all(18),
           child: Row(
             children: [
-              Image.asset('toni_erdmann.jpeg', width: 100, height: 100,),
-              Container(
-                width: 300,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('카메라 팝니다', style: TextStyle(),
-                    ),
-                    Text('금호동 3가'),
-                    Text('7000원'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(Icons.favorite),
-                        Text('4')
-                      ],
-                    )
-                  ],
+              Flexible(
+                flex: 2,
+                child: Image.asset('leica_m3.png', width: 100, height: 100,)),
+              Flexible(
+                flex: 8,
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('카메라 팝니다', style: TextStyle(),
+                      ),
+                      Text('금호동 3가'),
+                      Text('7000원'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(Icons.favorite),
+                          Text('4')
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               )
             ],
