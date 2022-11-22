@@ -64,21 +64,23 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: SizedBox(
-            height: 60,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(Icons.phone),
-                Icon(Icons.message),
-                Icon(Icons.contact_page),
-                Icon(Icons.person),
-              ],
-            ),
-          ),
-        ),
+        bottomNavigationBar: NavBar
       ),
     );
   }
 }
+
+var NavBar = BottomAppBar(
+      child: SizedBox(
+        height: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(Icons.phone),
+            Icon(Icons.message),
+            Icon(Icons.contact_page),
+            Icon(Icons.person),
+          ],
+        ),
+      ),
+    );
