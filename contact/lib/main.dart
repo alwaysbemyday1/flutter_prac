@@ -11,9 +11,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(),
-        body: SizedBox(),
-        bottomNavigationBar: BottomAppBar(child: Text('bottom'), color: Colors.greenAccent),
+
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.star),
+            Icon(Icons.star),
+            Icon(Icons.star),
+          ],
+        ),
+
       ),
     );
   }
