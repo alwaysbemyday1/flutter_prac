@@ -12,13 +12,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
 
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.star),
-            Icon(Icons.star),
-            Icon(Icons.star),
-          ],
+        body: Container(
+          height: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.star),
+              Icon(Icons.star),
+              Icon(Icons.star),
+            ],
+          ),
         ),
 
       ),
