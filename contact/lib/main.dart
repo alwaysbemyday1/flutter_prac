@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var a = 1;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              setState(() {
+                a++;
+              });
+            },
+            backgroundColor: Colors.black,
+            child: Text(
+              a.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            ),
+          ),
           appBar: AppBar(
             title: Text(
               '연락처',
