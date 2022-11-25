@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -12,28 +14,24 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var userlist = ['김대연', '김소현', '김유민'];
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            appBar: topBar,
-            bottomNavigationBar: navBar,
-            body: Dialog(
-              elevation: 0,
-              backgroundColor: Colors.blue,
-              child: Row(
-                children: [
-                  Icon(Icons.account_circle),
-                  Text(
-                    '김대연',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            )));
+    return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          child: Text(
+            'D',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+          ),
+          onPressed: () {},
+        ),
+        appBar: topBar,
+        bottomNavigationBar: navBar,
+        body: Center(
+            child: Text(
+          'Hi',
+          style: TextStyle(fontSize: 50),
+        )));
   }
 }
 
