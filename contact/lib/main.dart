@@ -23,7 +23,26 @@ class _MyAppState extends State<MyApp> {
             'D',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
           ),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Contact'),
+                  content: TextFormField(),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Cancel'),
+                    ),
+                    TextButton(onPressed: () {}, child: Text('OK'))
+                  ],
+                );
+              },
+            );
+          },
         ),
         appBar: topBar,
         bottomNavigationBar: navBar,
