@@ -16,8 +16,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var a = 0;
 
+  calcFunc() {
+    setState(() {
+      a++;
+    });
+  }
+
   @override
-  Widget build(BuildContext context) {
+  build(context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
@@ -30,7 +36,7 @@ class _MyAppState extends State<MyApp> {
                 context: context,
                 builder: ((context) {
                   print(a);
-                  return VarCalcDialog(calcNum: a);
+                  return VarCalcDialog(calcNum: a, calcFunc: calcFunc);
                 }));
           },
         ),
@@ -44,15 +50,11 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class VarCalcDialog extends StatefulWidget {
-  VarCalcDialog({super.key, this.calcNum});
+class VarCalcDialog extends StatelessWidget {
+  VarCalcDialog({super.key, this.calcNum, this.calcFunc});
   var calcNum;
+  final calcFunc;
 
-  @override
-  State<VarCalcDialog> createState() => _VarCalcDialogState();
-}
-
-class _VarCalcDialogState extends State<VarCalcDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -62,7 +64,7 @@ class _VarCalcDialogState extends State<VarCalcDialog> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(widget.calcNum.toString()),
+              Text(calcNum.toString()),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -70,10 +72,8 @@ class _VarCalcDialogState extends State<VarCalcDialog> {
                   child: Text('Cancel')),
               TextButton(
                   onPressed: () {
-                    setState((() {
-                      widget.calcNum++;
-                    }));
-                    print(widget.calcNum);
+                    calcFunc();
+                    print(calcNum);
                   },
                   child: Text('+ 1'))
             ],
