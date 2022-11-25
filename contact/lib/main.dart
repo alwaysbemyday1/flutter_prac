@@ -13,38 +13,29 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var userlist = ['김대연', '김소현', '김유민'];
-  var numlist = [0, 0, 0];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      appBar: topBar,
-      bottomNavigationBar: navBar,
-      body: ListView.builder(
-        itemCount: userlist.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Text(numlist[index].toString()),
-            title: Text(userlist[index]),
-            trailing: TextButton(
-                onPressed: () {
-                  setState(() {
-                    numlist[index]++;
-                  });
-                },
-                child: Text('좋아요')),
-          );
-        },
-      ),
-    ));
+            appBar: topBar,
+            bottomNavigationBar: navBar,
+            body: Dialog(
+              elevation: 0,
+              backgroundColor: Colors.blue,
+              child: Row(
+                children: [
+                  Icon(Icons.account_circle),
+                  Text(
+                    '김대연',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            )));
   }
 }
-
-var contactStructure = ListTile(
-  leading: Icon(Icons.account_circle),
-  title: Text('홍길동'),
-);
 
 var topBar = AppBar(
   title: Text(
