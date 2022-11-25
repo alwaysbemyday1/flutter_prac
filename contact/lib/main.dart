@@ -14,6 +14,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var a = 3;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,23 +27,10 @@ class _MyAppState extends State<MyApp> {
           ),
           onPressed: () {
             showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text('Contact'),
-                  content: TextFormField(),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Cancel'),
-                    ),
-                    TextButton(onPressed: () {}, child: Text('OK'))
-                  ],
-                );
-              },
-            );
+                context: context,
+                builder: ((context) {
+                  return VarCalcDialog();
+                }));
           },
         ),
         appBar: topBar,
@@ -51,6 +40,31 @@ class _MyAppState extends State<MyApp> {
           'Hi',
           style: TextStyle(fontSize: 50),
         )));
+  }
+}
+
+class VarCalcDialog extends StatelessWidget {
+  const VarCalcDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: SizedBox(
+          width: 300,
+          height: 200,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Cancel')),
+              TextButton(onPressed: () {}, child: Text('OK'))
+            ],
+          )),
+    );
   }
 }
 
