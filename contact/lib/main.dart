@@ -26,35 +26,20 @@ class MyApp extends StatelessWidget {
           body: ListView.builder(
             itemCount: 3,
             itemBuilder: ((context, index) {
-              return ContactStructure;
+              return contactStructure;
             }),
           ),
-          bottomNavigationBar: NavBar),
+          bottomNavigationBar: navBar),
     );
   }
 }
 
-var ContactStructure = Container(
-  padding: EdgeInsets.all(8),
-  child: Row(
-    children: [
-      Container(
-          height: 50,
-          width: 50,
-          child: Icon(
-            Icons.account_circle,
-            size: 40,
-          )),
-      Expanded(
-          child: Text(
-        '홍길동',
-        textAlign: TextAlign.left,
-      ))
-    ],
-  ),
+var contactStructure = ListTile(
+  leading: Icon(Icons.account_circle),
+  title: Text('홍길동'),
 );
 
-var NavBar = BottomAppBar(
+var navBar = BottomAppBar(
   child: SizedBox(
     height: 60,
     child: Row(
