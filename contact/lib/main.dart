@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var a = 3;
+  var a = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,8 @@ class _MyAppState extends State<MyApp> {
             showDialog(
                 context: context,
                 builder: ((context) {
-                  return VarCalcDialog();
+                  print(a);
+                  return VarCalcDialog(calcNum: a);
                 }));
           },
         ),
@@ -37,15 +38,21 @@ class _MyAppState extends State<MyApp> {
         bottomNavigationBar: navBar,
         body: Center(
             child: Text(
-          'Hi',
-          style: TextStyle(fontSize: 50),
+          a.toString(),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 80),
         )));
   }
 }
 
-class VarCalcDialog extends StatelessWidget {
-  const VarCalcDialog({super.key});
+class VarCalcDialog extends StatefulWidget {
+  VarCalcDialog({super.key, this.calcNum});
+  var calcNum;
 
+  @override
+  State<VarCalcDialog> createState() => _VarCalcDialogState();
+}
+
+class _VarCalcDialogState extends State<VarCalcDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -55,13 +62,20 @@ class VarCalcDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(),
+              Text(widget.calcNum.toString()),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
                   child: Text('Cancel')),
-              TextButton(onPressed: () {}, child: Text('OK'))
+              TextButton(
+                  onPressed: () {
+                    setState((() {
+                      widget.calcNum++;
+                    }));
+                    print(widget.calcNum);
+                  },
+                  child: Text('+ 1'))
             ],
           )),
     );
