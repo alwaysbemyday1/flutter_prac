@@ -77,17 +77,25 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class VarCalcDialog extends StatelessWidget {
+class VarCalcDialog extends StatefulWidget {
   VarCalcDialog({super.key, this.addList});
   final addList;
+
+  @override
+  State<VarCalcDialog> createState() => _VarCalcDialogState();
+}
+
+class _VarCalcDialogState extends State<VarCalcDialog> {
   var inputData = '';
+  var heightVar = 200.0;
+  bool _isVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       child: SizedBox(
           width: 300,
-          height: 200,
+          height: heightVar,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -97,6 +105,16 @@ class VarCalcDialog extends StatelessWidget {
                   inputData = value;
                 },
               ),
+              Visibility(
+                visible: _isVisible,
+                child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'Please type a name',
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    )),
+              ),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -104,8 +122,15 @@ class VarCalcDialog extends StatelessWidget {
                   child: Text('Cancel')),
               TextButton(
                   onPressed: () {
-                    addList(inputData);
-                    Navigator.pop(context);
+                    if (inputData != '') {
+                      widget.addList(inputData);
+                      Navigator.pop(context);
+                    } else {
+                      setState(() {
+                        heightVar = 225;
+                        _isVisible = true;
+                      });
+                    }
                   },
                   child: Text('Add'))
             ],
