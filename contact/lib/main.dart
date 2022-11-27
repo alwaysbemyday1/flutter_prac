@@ -14,11 +14,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var a = 0;
+  var contactList = ['김점득', '배임숙'];
+  var person;
 
-  calcFunc() {
+  addList(person) {
     setState(() {
-      a++;
+      contactList.add(person);
     });
   }
 
@@ -28,32 +29,35 @@ class _MyAppState extends State<MyApp> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           child: Text(
-            'D',
+            '+',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
           ),
           onPressed: () {
             showDialog(
                 context: context,
                 builder: ((context) {
-                  print(a);
-                  return VarCalcDialog(calcNum: a, calcFunc: calcFunc);
+                  return VarCalcDialog(addList: addList);
                 }));
           },
         ),
         appBar: topBar,
         bottomNavigationBar: navBar,
-        body: Center(
-            child: Text(
-          a.toString(),
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 80),
-        )));
+        body: ListView.builder(
+          itemCount: contactList.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text(contactList[index]),
+            );
+          },
+        ));
   }
 }
 
 class VarCalcDialog extends StatelessWidget {
-  VarCalcDialog({super.key, this.calcNum, this.calcFunc});
-  var calcNum;
-  final calcFunc;
+  VarCalcDialog({super.key, this.addList});
+  final addList;
+  var inputData = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,10 @@ class VarCalcDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(calcNum.toString()),
+              Text('연락처 추가'),
+              TextField(
+                controller: inputData,
+              ),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -72,10 +79,10 @@ class VarCalcDialog extends StatelessWidget {
                   child: Text('Cancel')),
               TextButton(
                   onPressed: () {
-                    calcFunc();
-                    print(calcNum);
+                    addList(inputData.text);
+                    Navigator.pop(context);
                   },
-                  child: Text('+ 1'))
+                  child: Text('Add'))
             ],
           )),
     );
