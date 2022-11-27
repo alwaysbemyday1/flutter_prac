@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
 class VarCalcDialog extends StatelessWidget {
   VarCalcDialog({super.key, this.addList});
   final addList;
-  var inputData = TextEditingController();
+  var inputData = '';
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,10 @@ class VarCalcDialog extends StatelessWidget {
             children: [
               Text('연락처 추가'),
               TextField(
-                controller: inputData,
+                onChanged: (value) {
+                  print(value);
+                  inputData = value;
+                },
               ),
               TextButton(
                   onPressed: () {
@@ -79,7 +82,7 @@ class VarCalcDialog extends StatelessWidget {
                   child: Text('Cancel')),
               TextButton(
                   onPressed: () {
-                    addList(inputData.text);
+                    addList(inputData);
                     Navigator.pop(context);
                   },
                   child: Text('Add'))
