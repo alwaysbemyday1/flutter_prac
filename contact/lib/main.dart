@@ -81,9 +81,24 @@ class _MyAppState extends State<MyApp> {
           itemCount: contactList.length,
           itemBuilder: (context, index) {
             return ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text(contactList[index]),
-            );
+                leading: Icon(Icons.account_circle),
+                title: Text(contactList[index]),
+                minLeadingWidth: 10,
+                trailing: PopupMenuButton(
+                  child: Icon(Icons.more_vert),
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(child: Text('Block')),
+                      PopupMenuItem(
+                          onTap: () {
+                            setState(() {
+                              contactList.remove(contactList[index]);
+                            });
+                          },
+                          child: Text('Delete')),
+                    ];
+                  },
+                ));
           },
         ));
   }
