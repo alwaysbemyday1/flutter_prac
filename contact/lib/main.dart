@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var contactList = ['김점득', '배임숙'];
+  var contactList = [];
   var person;
 
   addList(person) {
@@ -40,7 +40,30 @@ class _MyAppState extends State<MyApp> {
                 }));
           },
         ),
-        appBar: topBar,
+        appBar: AppBar(
+          title: Row(
+            children: [
+              Text(
+                '연락처',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(7, 0, 0, 0),
+                child: Text(
+                  '(${contactList.length})',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
+          ),
+          toolbarHeight: 50,
+          elevation: 0,
+          backgroundColor: Colors.white,
+        ),
         bottomNavigationBar: navBar,
         body: ListView.builder(
           itemCount: contactList.length,
@@ -71,7 +94,6 @@ class VarCalcDialog extends StatelessWidget {
               Text('연락처 추가'),
               TextField(
                 onChanged: (value) {
-                  print(value);
                   inputData = value;
                 },
               ),
@@ -91,19 +113,6 @@ class VarCalcDialog extends StatelessWidget {
     );
   }
 }
-
-var topBar = AppBar(
-  title: Text(
-    '연락처',
-    style: TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-  toolbarHeight: 50,
-  elevation: 0,
-  backgroundColor: Colors.white,
-);
 
 var navBar = BottomAppBar(
   child: SizedBox(
