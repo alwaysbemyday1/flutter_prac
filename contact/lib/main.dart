@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
           title: Row(
             children: [
               Text(
-                '연락처',
+                'Friends',
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -60,6 +60,18 @@ class _MyAppState extends State<MyApp> {
               )
             ],
           ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    contactList.sort((a, b) => a.compareTo(b));
+                  });
+                },
+                icon: Icon(
+                  Icons.sort_by_alpha,
+                  color: Colors.black,
+                ))
+          ],
           toolbarHeight: 50,
           elevation: 0,
           backgroundColor: Colors.white,
