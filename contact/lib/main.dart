@@ -174,12 +174,13 @@ class _VarCalcDialogState extends State<VarCalcDialog> {
                   child: Text('Cancel')),
               TextButton(
                   onPressed: () async {
+                    final navigator = Navigator.of(context);
                     if (inputData != '') {
-                      var newContact = new Contact();
+                      var newContact = Contact();
                       newContact.givenName = inputData;
                       await ContactsService.addContact(newContact);
                       // widget.addList(inputData);
-                      Navigator.pop(context);
+                      navigator.pop();
                     } else {
                       setState(() {
                         heightVar = 225;
