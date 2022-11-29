@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:contacts_service/contacts_service.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -22,17 +23,15 @@ class _MyAppState extends State<MyApp> {
     var status = await Permission.contacts.status;
     if (status.isGranted) {
       print('허락됨');
+      var contacts = await ContactsService.getContacts();
+      setState(() {
+        contactList = contacts;
+      });
     } else if (status.isDenied) {
       print('거절됨');
       Permission.contacts.request();
       openAppSettings();
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getPermission();
   }
 
   addList(person) {
@@ -88,6 +87,14 @@ class _MyAppState extends State<MyApp> {
                 icon: Icon(
                   Icons.sort_by_alpha,
                   color: Colors.black,
+                )),
+            IconButton(
+                onPressed: (() {
+                  getPermission();
+                }),
+                icon: Icon(
+                  Icons.contact_mail,
+                  color: Colors.black,
                 ))
           ],
           toolbarHeight: 50,
@@ -100,7 +107,7 @@ class _MyAppState extends State<MyApp> {
           itemBuilder: (context, index) {
             return ListTile(
                 leading: Icon(Icons.account_circle),
-                title: Text(contactList[index]),
+                title: Text(contactList[index].givenName),
                 minLeadingWidth: 10,
                 trailing: PopupMenuButton(
                   child: Icon(Icons.more_vert),
@@ -166,9 +173,12 @@ class _VarCalcDialogState extends State<VarCalcDialog> {
                   },
                   child: Text('Cancel')),
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (inputData != '') {
-                      widget.addList(inputData);
+                      var newContact = new Contact();
+                      newContact.givenName = inputData;
+                      await ContactsService.addContact(newContact);
+                      // widget.addList(inputData);
                       Navigator.pop(context);
                     } else {
                       setState(() {
