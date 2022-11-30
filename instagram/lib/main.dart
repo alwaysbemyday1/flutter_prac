@@ -8,14 +8,22 @@ void main() {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: mainAppBar,
-      body: null,
+      body: ListView.builder(
+          itemCount: 3,
+          itemBuilder: ((context, index) {
+            return posting;
+          })),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -41,5 +49,20 @@ AppBar mainAppBar = AppBar(
         icon: Icon(
           Icons.add_box_outlined,
         ))
+  ],
+);
+
+Column posting = Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text('Writer'),
+    SizedBox(
+        child: Image.asset(
+      'images/Leica_m3.png',
+    )),
+    Text('100 likes'),
+    Row(
+      children: [Text('Writer'), Text('내용')],
+    ),
   ],
 );
