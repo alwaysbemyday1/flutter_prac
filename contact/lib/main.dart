@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
       print('허락됨');
       var contacts = await ContactsService.getContacts();
       setState(() {
+        contacts.remove(contacts[0]);
         contactList = contacts;
       });
     } else if (status.isDenied) {
@@ -81,7 +82,9 @@ class _MyAppState extends State<MyApp> {
             IconButton(
                 onPressed: () {
                   setState(() {
-                    contactList.sort((a, b) => a.compareTo(b));
+                    print(contactList[0].givenName);
+                    contactList
+                        .sort((a, b) => a.familyName.compareTo(b.familyName));
                   });
                 },
                 icon: Icon(
@@ -105,25 +108,44 @@ class _MyAppState extends State<MyApp> {
         body: ListView.builder(
           itemCount: contactList.length,
           itemBuilder: (context, index) {
-            return ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text(contactList[index].givenName),
-                minLeadingWidth: 10,
-                trailing: PopupMenuButton(
-                  child: Icon(Icons.more_vert),
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(child: Text('Block')),
-                      PopupMenuItem(
-                          onTap: () {
-                            setState(() {
-                              contactList.remove(contactList[index]);
-                            });
-                          },
-                          child: Text('Delete')),
-                    ];
-                  },
-                ));
+            if (contactList != []) {
+              // print(contactList.length);
+              return ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${contactList[index].familyName} ${contactList[index].givenName}',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${contactList[index].phones?[0].value}',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  minLeadingWidth: 10,
+                  trailing: PopupMenuButton(
+                    child: Icon(Icons.more_vert),
+                    itemBuilder: (context) {
+                      return [
+                        PopupMenuItem(child: Text('Block')),
+                        PopupMenuItem(
+                            onTap: () {
+                              setState(() {
+                                contactList.remove(contactList[index]);
+                              });
+                            },
+                            child: Text('Delete')),
+                      ];
+                    },
+                  ));
+            } else {
+              return Text('하단의 + 버튼을 통해 연락처를 추가해주세요');
+            }
           },
         ));
   }
@@ -138,8 +160,10 @@ class VarCalcDialog extends StatefulWidget {
 }
 
 class _VarCalcDialogState extends State<VarCalcDialog> {
-  var inputData = '';
-  var heightVar = 200.0;
+  var inputData1 = '';
+  var inputData2 = '';
+  var inputData3 = '';
+  var heightVar = 290.0;
   bool _isVisible = false;
 
   @override
@@ -153,8 +177,21 @@ class _VarCalcDialogState extends State<VarCalcDialog> {
             children: [
               Text('연락처 추가'),
               TextField(
+                decoration: InputDecoration(hintText: 'Family Name'),
                 onChanged: (value) {
-                  inputData = value;
+                  inputData1 = value;
+                },
+              ),
+              TextField(
+                decoration: InputDecoration(hintText: 'Given Name'),
+                onChanged: (value) {
+                  inputData2 = value;
+                },
+              ),
+              TextField(
+                decoration: InputDecoration(hintText: 'Phone Number'),
+                onChanged: (value) {
+                  inputData3 = value;
                 },
               ),
               Visibility(
@@ -175,15 +212,20 @@ class _VarCalcDialogState extends State<VarCalcDialog> {
               TextButton(
                   onPressed: () async {
                     final navigator = Navigator.of(context);
-                    if (inputData != '') {
+                    if (inputData3 != '') {
                       var newContact = Contact();
-                      newContact.givenName = inputData;
+                      newContact.familyName = inputData1;
+                      newContact.givenName = inputData2;
+                      newContact.phones = [
+                        Item(label: "mobile", value: inputData3)
+                      ];
+
                       await ContactsService.addContact(newContact);
-                      // widget.addList(inputData);
+                      widget.addList(newContact);
                       navigator.pop();
                     } else {
                       setState(() {
-                        heightVar = 225;
+                        heightVar = 310;
                         _isVisible = true;
                       });
                     }
