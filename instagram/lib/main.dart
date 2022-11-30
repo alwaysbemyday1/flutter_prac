@@ -17,10 +17,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var bodyHome = [];
+  var statusCode = 200;
+
   getData() async {
-    var result = await http
-        .get(Uri.parse('https://codingapple1.github.io/app/data.json'));
-    print(result.body);
+    var response = await http
+        .get(Uri.parse('https://codingapple1.github.io/app/data.json/daay'));
+    if (response.statusCode == 200) {
+      print('HTTP get success ✅');
+      setState(() {
+        bodyHome = jsonDecode(response.body);
+      });
+    } else {
+      statusCode = response.statusCode;
+      print('HTTP got error ❌');
+    }
   }
 
   @override
@@ -33,7 +44,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: mainAppBar,
-      body: Home(),
+      body: Home(bodyHome: bodyHome, statusCode: statusCode),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -63,30 +74,37 @@ AppBar mainAppBar = AppBar(
 );
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({super.key, this.bodyHome, this.statusCode});
+  final bodyHome;
+  final statusCode;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: 3,
-        itemBuilder: ((context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Writer'),
-                SizedBox(
-                    child: Image.asset(
-                  'images/Leica_m3.png',
-                )),
-                Text('100 likes'),
-                Row(
-                  children: [Text('내용')],
-                ),
-              ],
-            ),
-          );
-        }));
+    if (statusCode == 200) {
+      return ListView.builder(
+          itemCount: bodyHome.length,
+          itemBuilder: ((context, index) {
+            var post = bodyHome[index];
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(post['user']),
+                  SizedBox(child: Image.network(post['image'])),
+                  Text('${post['likes'].toString()} likes'),
+                  Text(post['content']),
+                  Text(post['date']),
+                ],
+              ),
+            );
+          }));
+    } else {
+      return Center(
+          child: Text(
+        '잘못된 요청',
+        style: TextStyle(color: Colors.black),
+      ));
+    }
   }
 }
