@@ -29,7 +29,9 @@ class _MyAppState extends State<MyApp> {
         bodyHome = jsonDecode(response.body);
       });
     } else {
-      statusCode = response.statusCode;
+      setState(() {
+        statusCode = response.statusCode;
+      });
       print('HTTP got error ❌');
     }
   }
@@ -80,6 +82,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(statusCode);
     if (statusCode == 200) {
       return ListView.builder(
           itemCount: bodyHome.length,
