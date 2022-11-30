@@ -165,7 +165,7 @@ class _VarCalcDialogState extends State<VarCalcDialog> {
   String inputData1 = '';
   String inputData2 = '';
   String inputData3 = '';
-  double heightVar = 290.0;
+  double heightVar = 320.0;
   bool _isVisible = false;
 
   @override
@@ -174,24 +174,32 @@ class _VarCalcDialogState extends State<VarCalcDialog> {
       child: SizedBox(
           width: 300,
           height: heightVar,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
             children: [
               Text('연락처 추가'),
               TextField(
-                decoration: InputDecoration(hintText: 'Family Name'),
+                decoration: InputDecoration(
+                    hintText: 'Family Name',
+                    helperText: '성을 입력해주세요.',
+                    labelText: 'Family Name'),
                 onChanged: (value) {
                   inputData1 = value;
                 },
               ),
               TextField(
-                decoration: InputDecoration(hintText: 'Given Name'),
+                decoration: InputDecoration(
+                    hintText: 'Given Name',
+                    helperText: '이름을 입력해주세요.',
+                    labelText: 'Given Name'),
                 onChanged: (value) {
                   inputData2 = value;
                 },
               ),
               TextField(
-                decoration: InputDecoration(hintText: 'Phone Number'),
+                decoration: InputDecoration(
+                    hintText: 'Phone Number',
+                    helperText: '번호를 입력해주세요.',
+                    labelText: 'Phone Number'),
                 onChanged: (value) {
                   inputData3 = value;
                 },
@@ -206,33 +214,39 @@ class _VarCalcDialogState extends State<VarCalcDialog> {
                           color: Colors.red, fontWeight: FontWeight.bold),
                     )),
               ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Cancel')),
-              TextButton(
-                  onPressed: () async {
-                    final navigator = Navigator.of(context);
-                    if (inputData3 != '') {
-                      var newContact = Contact();
-                      newContact.familyName = inputData1;
-                      newContact.givenName = inputData2;
-                      newContact.phones = [
-                        Item(label: "mobile", value: inputData3)
-                      ];
+              Container(
+                margin: EdgeInsets.all(0),
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancel')),
+              ),
+              Container(
+                margin: EdgeInsets.all(0),
+                child: TextButton(
+                    onPressed: () async {
+                      final navigator = Navigator.of(context);
+                      if (inputData3 != '') {
+                        var newContact = Contact();
+                        newContact.familyName = inputData1;
+                        newContact.givenName = inputData2;
+                        newContact.phones = [
+                          Item(label: "mobile", value: inputData3)
+                        ];
 
-                      await ContactsService.addContact(newContact);
-                      widget.addList(newContact);
-                      navigator.pop();
-                    } else {
-                      setState(() {
-                        heightVar = 310;
-                        _isVisible = true;
-                      });
-                    }
-                  },
-                  child: Text('Add'))
+                        await ContactsService.addContact(newContact);
+                        widget.addList(newContact);
+                        navigator.pop();
+                      } else {
+                        setState(() {
+                          heightVar = 310;
+                          _isVisible = true;
+                        });
+                      }
+                    },
+                    child: Text('Add')),
+              )
             ],
           )),
     );
