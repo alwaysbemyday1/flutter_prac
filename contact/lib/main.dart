@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
@@ -16,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var contactList = [];
+  List<Contact> contactList = [];
   var person;
 
   getPermission() async {
@@ -84,7 +86,7 @@ class _MyAppState extends State<MyApp> {
                   setState(() {
                     print(contactList[0].givenName);
                     contactList
-                        .sort((a, b) => a.familyName.compareTo(b.familyName));
+                        .sort((a, b) => a.familyName!.compareTo(b.familyName!));
                   });
                 },
                 icon: Icon(
@@ -160,10 +162,10 @@ class VarCalcDialog extends StatefulWidget {
 }
 
 class _VarCalcDialogState extends State<VarCalcDialog> {
-  var inputData1 = '';
-  var inputData2 = '';
-  var inputData3 = '';
-  var heightVar = 290.0;
+  String inputData1 = '';
+  String inputData2 = '';
+  String inputData3 = '';
+  double heightVar = 290.0;
   bool _isVisible = false;
 
   @override
