@@ -19,11 +19,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: mainAppBar,
-      body: ListView.builder(
-          itemCount: 3,
-          itemBuilder: ((context, index) {
-            return posting;
-          })),
+      body: Home(),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -52,17 +48,31 @@ AppBar mainAppBar = AppBar(
   ],
 );
 
-Column posting = Column(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-    Text('Writer'),
-    SizedBox(
-        child: Image.asset(
-      'images/Leica_m3.png',
-    )),
-    Text('100 likes'),
-    Row(
-      children: [Text('Writer'), Text('내용')],
-    ),
-  ],
-);
+class Home extends StatelessWidget {
+  const Home({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: 3,
+        itemBuilder: ((context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Writer'),
+                SizedBox(
+                    child: Image.asset(
+                  'images/Leica_m3.png',
+                )),
+                Text('100 likes'),
+                Row(
+                  children: [Text('내용')],
+                ),
+              ],
+            ),
+          );
+        }));
+  }
+}
