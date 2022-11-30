@@ -16,6 +16,19 @@ class MyApp extends StatelessWidget {
     return Scaffold(
       appBar: mainAppBar,
       body: null,
+      bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home_outlined,
+              ),
+              label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_bag_outlined), label: 'Shopping'),
+        ],
+      ),
     );
   }
 }
