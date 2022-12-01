@@ -18,20 +18,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var bodyHome = [];
-  var statusCode = 200;
 
   getData() async {
     var response = await http
-        .get(Uri.parse('https://codingapple1.github.io/app/data.json/daay'));
+        .get(Uri.parse('https://codingapple1.github.io/app/data.json'));
     if (response.statusCode == 200) {
       print('HTTP get success ✅');
       setState(() {
         bodyHome = jsonDecode(response.body);
       });
     } else {
-      setState(() {
-        statusCode = response.statusCode;
-      });
       print('HTTP got error ❌');
     }
   }
@@ -46,7 +42,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: mainAppBar,
-      body: Home(bodyHome: bodyHome, statusCode: statusCode),
+      body: Home(bodyHome: bodyHome),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -82,8 +78,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(statusCode);
-    if (statusCode == 200) {
+    if (bodyHome.isNotEmpty) {
       return ListView.builder(
           itemCount: bodyHome.length,
           itemBuilder: ((context, index) {
@@ -104,9 +99,8 @@ class Home extends StatelessWidget {
           }));
     } else {
       return Center(
-          child: Text(
-        '잘못된 요청',
-        style: TextStyle(color: Colors.black),
+          child: CircularProgressIndicator(
+        color: Colors.black,
       ));
     }
   }
