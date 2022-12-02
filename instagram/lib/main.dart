@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './style.dart' as style;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -17,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var bodyHome = [];
+  var bodyHome = {};
 
   getData() async {
     var response = await http
@@ -71,18 +72,43 @@ AppBar mainAppBar = AppBar(
   ],
 );
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key, this.bodyHome, this.statusCode});
   final bodyHome;
   final statusCode;
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  var scroll = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    scroll.addListener(() async {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent) {
+        var response = await http
+            .get(Uri.parse('https://codingapple1.github.io/app/more2.json'));
+        if (response.statusCode == 200) {
+          setState(() {
+            widget.bodyHome.addAll([jsonDecode(response.body)]);
+            print(widget.bodyHome);
+          });
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (bodyHome.isNotEmpty) {
+    if (widget.bodyHome.isNotEmpty) {
       return ListView.builder(
-          itemCount: bodyHome.length,
+          controller: scroll,
+          itemCount: widget.bodyHome.length,
           itemBuilder: ((context, index) {
-            var post = bodyHome[index];
+            var post = widget.bodyHome[index];
             return Padding(
               padding: const EdgeInsets.all(5.0),
               child: Column(
