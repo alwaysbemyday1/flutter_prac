@@ -9,8 +9,12 @@ import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: MyApp(),
     theme: style.theme,
+    initialRoute: '/',
+    routes: {
+      '/': (context) => MyApp(),
+      '/posting': (context) => posting.PostingPage()
+    },
   ));
 }
 
@@ -76,8 +80,7 @@ mainAppBar(context) {
     actions: [
       IconButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => posting.PostingPage()));
+            Navigator.pushNamed(context, '/posting');
           },
           icon: Icon(
             Icons.add_box_outlined,
