@@ -142,11 +142,38 @@ class _HomeState extends State<Home> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(post['user']),
+                  Text(
+                    post['user'],
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
                   SizedBox(child: Image.network(post['image'])),
                   Text('${post['likes'].toString()} likes'),
-                  Text(post['content']),
-                  Text(post['date']),
+                  RichText(
+                    text: TextSpan(
+                      // Note: Styles for TextSpans must be explicitly defined.
+                      // Child text spans will inherit styles from parent
+                      style: const TextStyle(
+                        color: Colors.black,
+                      ),
+                      children: [
+                        TextSpan(
+                            text: post['user'],
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
+                        WidgetSpan(
+                            child: SizedBox(
+                          width: 5,
+                        )),
+                        TextSpan(
+                          text: post['content'],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                      child:
+                          Text(post['date'], style: TextStyle(fontSize: 12))),
                 ],
               ),
             );
