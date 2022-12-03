@@ -18,7 +18,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var bodyHome = {};
+  var bodyHome = [];
+
+  addData(a) {
+    setState(() {
+      bodyHome.add(a);
+    });
+  }
 
   getData() async {
     var response = await http
@@ -43,7 +49,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: mainAppBar,
-      body: Home(bodyHome: bodyHome),
+      body: Home(bodyHome: bodyHome, addData: addData),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -73,9 +79,9 @@ AppBar mainAppBar = AppBar(
 );
 
 class Home extends StatefulWidget {
-  const Home({super.key, this.bodyHome, this.statusCode});
+  const Home({super.key, this.bodyHome, this.addData});
   final bodyHome;
-  final statusCode;
+  final addData;
 
   @override
   State<Home> createState() => _HomeState();
@@ -84,19 +90,19 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   var scroll = ScrollController();
 
+  getMore() async {
+    var result = await http
+        .get(Uri.parse('https://codingapple1.github.io/app/more2.json'));
+    var result2 = jsonDecode(result.body);
+    widget.addData(result2);
+  }
+
   @override
   void initState() {
     super.initState();
-    scroll.addListener(() async {
+    scroll.addListener(() {
       if (scroll.position.pixels == scroll.position.maxScrollExtent) {
-        var response = await http
-            .get(Uri.parse('https://codingapple1.github.io/app/more2.json'));
-        if (response.statusCode == 200) {
-          setState(() {
-            widget.bodyHome.addAll([jsonDecode(response.body)]);
-            print(widget.bodyHome);
-          });
-        }
+        getMore();
       }
     });
   }
