@@ -1,10 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import './style.dart' as style;
 import './posting.dart' as posting;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'package:flutter/rendering.dart';
 
 void main() {
