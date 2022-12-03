@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import './style.dart' as style;
 import 'package:http/http.dart' as http;
@@ -89,12 +91,24 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var scroll = ScrollController();
+  var scrollNum = 0;
+  var bodyHomeState = 1;
 
-  getMore() async {
-    var result = await http
-        .get(Uri.parse('https://codingapple1.github.io/app/more2.json'));
-    var result2 = jsonDecode(result.body);
-    widget.addData(result2);
+  getMore(scrollNum) async {
+    var result = await http.get(
+        Uri.parse('https://codingapple1.github.io/app/more$scrollNum.json'));
+    if (result.statusCode == 200) {
+      setState(() {
+        bodyHomeState = 1;
+      });
+      var result2 = jsonDecode(result.body);
+      widget.addData(result2);
+    } else {
+      setState(() {
+        bodyHomeState = 0;
+      });
+      print('더이상 데이터가 없습니다');
+    }
   }
 
   @override
@@ -102,7 +116,15 @@ class _HomeState extends State<Home> {
     super.initState();
     scroll.addListener(() {
       if (scroll.position.pixels == scroll.position.maxScrollExtent) {
-        getMore();
+        if (bodyHomeState == 1) {
+          setState(() {
+            scrollNum += 1;
+            getMore(scrollNum);
+            print(scrollNum);
+          });
+        } else if (bodyHomeState == 0) {
+          print('아직 데이터가 전송되지 않았습니다.');
+        }
       }
     });
   }
