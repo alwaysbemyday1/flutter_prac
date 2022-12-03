@@ -9,13 +9,21 @@ import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(MaterialApp(
-    theme: style.theme,
-    initialRoute: '/',
-    routes: {
-      '/': (context) => MyApp(),
-      '/posting': (context) => posting.PostingPage()
-    },
-  ));
+      theme: style.theme,
+      initialRoute: '/',
+      onGenerateRoute: (settings) {
+        var arguments = settings.arguments;
+        if (settings.name == '/detail') {
+          return MaterialPageRoute(builder: ((context) => Text('data')));
+        } else if (settings.name == '/') {
+          return MaterialPageRoute(builder: ((context) => MyApp()));
+        } else if (settings.name == '/posting') {
+          return MaterialPageRoute(
+              builder: ((context) => posting.PostingPage()));
+        } else {
+          return null;
+        }
+      }));
 }
 
 class MyApp extends StatefulWidget {
