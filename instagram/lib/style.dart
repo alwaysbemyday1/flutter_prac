@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 var theme = ThemeData(
     appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: Colors.black),
         color: Colors.white,
         elevation: 0.3,
         titleTextStyle: TextStyle(

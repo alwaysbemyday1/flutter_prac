@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import './style.dart' as style;
+import './posting.dart' as posting;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/rendering.dart';
@@ -50,8 +51,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: mainAppBar,
-      body: Home(bodyHome: bodyHome, addData: addData),
+      appBar: mainAppBar(context),
+      body: HomeFeed(bodyHome: bodyHome, addData: addData),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -69,27 +70,32 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-AppBar mainAppBar = AppBar(
-  title: Text('Instagram'),
-  actions: [
-    IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.add_box_outlined,
-        ))
-  ],
-);
+mainAppBar(context) {
+  return AppBar(
+    title: Text('Instagram'),
+    actions: [
+      IconButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => posting.PostingPage()));
+          },
+          icon: Icon(
+            Icons.add_box_outlined,
+          ))
+    ],
+  );
+}
 
-class Home extends StatefulWidget {
-  const Home({super.key, this.bodyHome, this.addData});
+class HomeFeed extends StatefulWidget {
+  const HomeFeed({super.key, this.bodyHome, this.addData});
   final bodyHome;
   final addData;
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeFeed> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<HomeFeed> {
   var scroll = ScrollController();
   var scrollNum = 0;
   var bodyHomeState = 1;
