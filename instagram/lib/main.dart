@@ -9,21 +9,13 @@ import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(MaterialApp(
-      theme: style.theme,
-      initialRoute: '/',
-      onGenerateRoute: (settings) {
-        var arguments = settings.arguments;
-        if (settings.name == '/detail') {
-          return MaterialPageRoute(builder: ((context) => Text('data')));
-        } else if (settings.name == '/') {
-          return MaterialPageRoute(builder: ((context) => MyApp()));
-        } else if (settings.name == '/posting') {
-          return MaterialPageRoute(
-              builder: ((context) => posting.PostingPage()));
-        } else {
-          return null;
-        }
-      }));
+    theme: style.theme,
+    initialRoute: '/',
+    routes: {
+      '/': (context) => MyApp(),
+      '/posting': (context) => posting.PostingPage()
+    },
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -82,13 +74,23 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-mainAppBar(context) {
+PreferredSizeWidget mainAppBar(context) {
   return AppBar(
     title: Text('Instagram'),
     actions: [
       IconButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/posting');
+          onPressed: () async {
+            var picker = ImagePicker();
+            var image = await picker.pickImage(source: ImageSource.gallery);
+            if (image != null) {
+              var userImage = File(image.path);
+              print('image name : $userImage');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) =>
+                          posting.PostingPage(userImage: userImage))));
+            }
           },
           icon: Icon(
             Icons.add_box_outlined,
@@ -167,8 +169,6 @@ class _HomeState extends State<HomeFeed> {
                   Text('${post['likes'].toString()} likes'),
                   RichText(
                     text: TextSpan(
-                      // Note: Styles for TextSpans must be explicitly defined.
-                      // Child text spans will inherit styles from parent
                       style: const TextStyle(
                         color: Colors.black,
                       ),

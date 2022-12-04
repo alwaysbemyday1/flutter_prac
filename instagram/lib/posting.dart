@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import './main.dart' as main;
 
-class PostingPage extends StatefulWidget {
-  const PostingPage({super.key});
+// class PostingPageArguments {
+//   final userImage;
+//   PostingPageArguments(this.userImage);
+// }
 
-  @override
-  State<PostingPage> createState() => _PostingPageState();
-}
+class PostingPage extends StatelessWidget {
+  const PostingPage({super.key, this.userImage});
+  final userImage;
 
-class _PostingPageState extends State<PostingPage> {
   @override
   Widget build(BuildContext context) {
+    // final args =
+    //     ModalRoute.of(context)!.settings.arguments as PostingPageArguments;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -22,7 +24,7 @@ class _PostingPageState extends State<PostingPage> {
         title: Text('Posting'),
       ),
       body: Column(
-        children: [Text('data')],
+        children: [Image.file(userImage)],
       ),
     );
   }
