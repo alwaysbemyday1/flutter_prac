@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: mainAppBar(context),
+      appBar: MainAppBar(),
       body: HomeFeed(bodyHome: bodyHome, addData: addData),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
@@ -74,29 +74,37 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-PreferredSizeWidget mainAppBar(context) {
-  return AppBar(
-    title: Text('Instagram'),
-    actions: [
-      IconButton(
-          onPressed: () async {
-            var picker = ImagePicker();
-            var image = await picker.pickImage(source: ImageSource.gallery);
-            if (image != null) {
-              var userImage = File(image.path);
-              print('image name : $userImage');
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: ((context) =>
-                          posting.PostingPage(userImage: userImage))));
-            }
-          },
-          icon: Icon(
-            Icons.add_box_outlined,
-          ))
-    ],
-  );
+class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const MainAppBar({super.key});
+
+  @override
+  Size get preferredSize => Size.fromHeight(60.0);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text('Instagram'),
+      actions: [
+        IconButton(
+            onPressed: () async {
+              var picker = ImagePicker();
+              var image = await picker.pickImage(source: ImageSource.gallery);
+              if (image != null) {
+                var userImage = File(image.path);
+                print('image name : $userImage');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) =>
+                            posting.PostingPage(userImage: userImage))));
+              }
+            },
+            icon: Icon(
+              Icons.add_box_outlined,
+            ))
+      ],
+    );
+  }
 }
 
 class HomeFeed extends StatefulWidget {
