@@ -1,32 +1,50 @@
 import 'package:flutter/material.dart';
 
-class PostingPageArguments {
+class PostingPage extends StatefulWidget {
+  const PostingPage({super.key, this.userImage});
   final userImage;
-  PostingPageArguments(this.userImage);
+
+  @override
+  State<PostingPage> createState() => _PostingPageState();
 }
 
-class PostingPage extends StatelessWidget {
-  const PostingPage({super.key});
+class _PostingPageState extends State<PostingPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PostingAppBar(),
+      body: Column(
+        children: [Image.file(widget.userImage)],
+      ),
+    );
+  }
+}
 
-  static const routeName = '/posting';
+class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const PostingAppBar({super.key});
+
+  @override
+  Size get preferredSize => Size.fromHeight(60.0);
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as PostingPageArguments;
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text('Posting'),
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
-      body: Column(
-        children: [args.userImage],
-      ),
+      title: Text('Posting'),
+      actions: [
+        TextButton(
+            onPressed: (() {}),
+            child: Text(
+              'Complete',
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ))
+      ],
     );
   }
 }

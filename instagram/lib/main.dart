@@ -13,26 +13,8 @@ void main() {
     initialRoute: '/',
     routes: {
       '/': (context) => MyApp(),
-      posting.PostingPage.routeName: (context) => const posting.PostingPage()
+      '/posting': (context) => posting.PostingPage()
     },
-    onGenerateRoute: (settings) {
-    // If you push the PassArguments route
-    if (settings.name == posting.PostingPage.routeName) {
-      // Cast the arguments to the correct
-      // type: ScreenArguments.
-      final args = settings.arguments as posting.PostingPageArguments;
-
-      // Then, extract the required data from
-      // the arguments and pass the data to the
-      // correct screen.
-      return MaterialPageRoute(
-        builder: (context) {
-          return posting.PostingPageArguments(
-            userImage: args.userImage,
-          );
-        },
-      );
-    }
   ));
 }
 
@@ -103,13 +85,11 @@ PreferredSizeWidget mainAppBar(context) {
             if (image != null) {
               var userImage = File(image.path);
               print('image name : $userImage');
-              Navigator.pushNamed(context, '/posting',
-                  arguments: posting.PostingPageArguments(userImage));
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: ((context) =>
-              //             posting.PostingPage(userImage: userImage))));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) =>
+                          posting.PostingPage(userImage: userImage))));
             }
           },
           icon: Icon(
