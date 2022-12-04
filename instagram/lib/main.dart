@@ -121,7 +121,8 @@ class _HomeState extends State<HomeFeed> {
         bodyHomeState = 1;
       });
       var result2 = jsonDecode(result.body);
-      widget.addData(result2);
+      print(result2);
+      await widget.addData(result2);
     } else {
       setState(() {
         bodyHomeState = 0;
