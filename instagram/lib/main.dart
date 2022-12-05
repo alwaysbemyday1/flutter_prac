@@ -205,8 +205,17 @@ class _HomeState extends State<HomeFeed> {
                     ),
                     onTap: () {
                       var navigator = Navigator.of(context);
-                      navigator.push(CupertinoPageRoute(
-                          builder: ((context) => profile.ProfilePage())));
+                      navigator.push(PageRouteBuilder(
+                        pageBuilder:
+                            ((context, animation, secondaryAnimation) =>
+                                profile.ProfilePage()),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) =>
+                                FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      ));
                     },
                   ),
                   SizedBox(
