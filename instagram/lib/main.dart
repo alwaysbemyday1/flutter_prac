@@ -209,10 +209,14 @@ class _HomeState extends State<HomeFeed> {
                         pageBuilder:
                             ((context, animation, secondaryAnimation) =>
                                 profile.ProfilePage()),
+                        transitionDuration: Duration(milliseconds: 250),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) =>
-                                FadeTransition(
-                          opacity: animation,
+                                SlideTransition(
+                          position: Tween(
+                                  begin: Offset(1.0, 0.0),
+                                  end: Offset(0.0, 0.0))
+                              .animate(animation),
                           child: child,
                         ),
                       ));
