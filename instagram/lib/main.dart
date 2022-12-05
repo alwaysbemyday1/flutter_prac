@@ -31,9 +31,13 @@ class _MyAppState extends State<MyApp> {
 
   addData(a) {
     setState(() {
-      print(bodyHome);
       bodyHome.add(a);
-      print(bodyHome);
+    });
+  }
+
+  insertData(a) {
+    setState(() {
+      bodyHome.insert(0, a);
     });
   }
 
@@ -59,7 +63,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(addData: addData),
+      appBar: MainAppBar(insertData: insertData),
       body: HomeFeed(bodyHome: bodyHome, addData: addData),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
@@ -79,8 +83,8 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MainAppBar({super.key, this.addData});
-  final addData;
+  const MainAppBar({super.key, this.insertData});
+  final insertData;
 
   @override
   Size get preferredSize => Size.fromHeight(60.0);
@@ -102,7 +106,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                     MaterialPageRoute(
                         builder: ((context) => posting.PostingPage(
                               userImage: userImage,
-                              addData: addData,
+                              insertData: insertData,
                             ))));
               }
             },

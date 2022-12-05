@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PostingPage extends StatefulWidget {
-  const PostingPage({super.key, this.userImage, this.addData});
+  const PostingPage({super.key, this.userImage, this.insertData});
   final userImage;
-  final addData;
+  final insertData;
 
   @override
   State<PostingPage> createState() => _PostingPageState();
@@ -33,7 +33,7 @@ class _PostingPageState extends State<PostingPage> {
       appBar: PostingAppBar(
           postingStruct: postingStruct,
           feelPostingStruct: feelPostingStruct,
-          addData: widget.addData),
+          insertData: widget.insertData),
       body: Column(
         children: [
           SizedBox(
@@ -105,10 +105,10 @@ class _PostingPageState extends State<PostingPage> {
 
 class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PostingAppBar(
-      {super.key, this.postingStruct, this.feelPostingStruct, this.addData});
+      {super.key, this.postingStruct, this.feelPostingStruct, this.insertData});
   final postingStruct;
   final feelPostingStruct;
-  final addData;
+  final insertData;
 
   @override
   Size get preferredSize => Size.fromHeight(60.0);
@@ -128,7 +128,7 @@ class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
             onPressed: (() async {
               var result = feelPostingStruct();
               print(result);
-              await addData(result);
+              await insertData(result);
               Navigator.pop(context);
             }),
             child: Text(
