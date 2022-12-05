@@ -34,6 +34,8 @@ class _MyAppState extends State<MyApp> {
     var result = storage.get('key');
     print(result);
     storage.remove('key');
+
+    // 이미지를 캐시에 저장하고 싶으면 cached_network_image 패키지 사용
   }
 
   addData(a) {
