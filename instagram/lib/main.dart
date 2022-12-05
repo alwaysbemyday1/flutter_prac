@@ -14,7 +14,7 @@ import 'dart:io';
 
 void main() {
   runApp(ChangeNotifierProvider(
-    create: (context) => Store1(),
+    create: (context) => ProviderStore(),
     child: MaterialApp(
       theme: style.theme,
       initialRoute: '/',
@@ -27,7 +27,7 @@ void main() {
   ));
 }
 
-class Store1 extends ChangeNotifier {
+class ProviderStore extends ChangeNotifier {
   var bodyHome = [];
 
   addData(a) {
@@ -77,7 +77,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    getData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<ProviderStore>(context, listen: false).getData();
+    });
   }
 
   @override
