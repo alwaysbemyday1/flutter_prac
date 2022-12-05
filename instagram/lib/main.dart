@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import './style.dart' as style;
 import './posting.dart' as posting;
@@ -220,6 +221,13 @@ class _HomeState extends State<HomeFeed> {
                       children: [
                         TextSpan(
                             text: post['user'],
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                var navigator = Navigator.of(context);
+                                navigator.push(MaterialPageRoute(
+                                    builder: ((context) =>
+                                        profile.ProfilePage())));
+                              },
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
                         WidgetSpan(
