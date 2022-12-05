@@ -28,6 +28,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var bodyHome = [];
 
+  saveData() async {
+    var storage = await SharedPreferences.getInstance();
+    storage.setString('key', 'value');
+    var result = storage.get('key');
+    print(result);
+    storage.remove('key');
+  }
+
   addData(a) {
     setState(() {
       bodyHome.add(a);
