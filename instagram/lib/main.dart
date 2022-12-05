@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './style.dart' as style;
 import './posting.dart' as posting;
+import './profile.dart' as profile;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
@@ -14,7 +15,8 @@ void main() {
     initialRoute: '/',
     routes: {
       '/': (context) => MyApp(),
-      '/posting': (context) => posting.PostingPage()
+      '/posting': (context) => posting.PostingPage(),
+      '/profile': (context) => profile.ProfilePage()
     },
   ));
 }
@@ -28,10 +30,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var bodyHome = [];
 
-  saveData() async {
+  saveData(data) async {
     var storage = await SharedPreferences.getInstance();
 
-    var map = {'key': 'value'};
+    var map = data;
     storage.setString('map', jsonEncode(map));
     // var result = storage.get('map');
     // print(jsonDecode(result));
