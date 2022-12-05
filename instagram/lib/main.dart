@@ -13,15 +13,44 @@ import 'package:provider/provider.dart';
 import 'dart:io';
 
 void main() {
-  runApp(MaterialApp(
-    theme: style.theme,
-    initialRoute: '/',
-    routes: {
-      '/': (context) => MyApp(),
-      '/posting': (context) => posting.PostingPage(),
-      '/profile': (context) => profile.ProfilePage()
-    },
+  runApp(ChangeNotifierProvider(
+    create: (context) => Store1(),
+    child: MaterialApp(
+      theme: style.theme,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MyApp(),
+        '/posting': (context) => posting.PostingPage(),
+        '/profile': (context) => profile.ProfilePage()
+      },
+    ),
   ));
+}
+
+class Store1 extends ChangeNotifier {
+  var bodyHome = [];
+
+  addData(a) {
+    bodyHome.add(a);
+    notifyListeners();
+  }
+
+  insertData(a) {
+    bodyHome.insert(0, a);
+    notifyListeners();
+  }
+
+  getData() async {
+    var response = await http
+        .get(Uri.parse('https://codingapple1.github.io/app/data.json'));
+    if (response.statusCode == 200) {
+      print('HTTP get success ✅');
+      bodyHome = jsonDecode(response.body);
+    } else {
+      print('HTTP got error ❌');
+    }
+    notifyListeners();
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -31,8 +60,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var bodyHome = [];
-
   saveData(data) async {
     var storage = await SharedPreferences.getInstance();
 
@@ -45,31 +72,6 @@ class _MyAppState extends State<MyApp> {
     var result1 = storage.getString('map') ?? 'no data';
     print(jsonDecode(result1));
     storage.remove('map');
-  }
-
-  addData(a) {
-    setState(() {
-      bodyHome.add(a);
-    });
-  }
-
-  insertData(a) {
-    setState(() {
-      bodyHome.insert(0, a);
-    });
-  }
-
-  getData() async {
-    var response = await http
-        .get(Uri.parse('https://codingapple1.github.io/app/data.json'));
-    if (response.statusCode == 200) {
-      print('HTTP get success ✅');
-      setState(() {
-        bodyHome = jsonDecode(response.body);
-      });
-    } else {
-      print('HTTP got error ❌');
-    }
   }
 
   @override
