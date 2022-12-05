@@ -30,12 +30,16 @@ class _MyAppState extends State<MyApp> {
 
   saveData() async {
     var storage = await SharedPreferences.getInstance();
-    storage.setString('key', 'value');
-    var result = storage.get('key');
-    print(result);
-    storage.remove('key');
 
-    // 이미지를 캐시에 저장하고 싶으면 cached_network_image 패키지 사용
+    var map = {'key': 'value'};
+    storage.setString('map', jsonEncode(map));
+    // var result = storage.get('map');
+    // print(jsonDecode(result));
+    // jsonDecode() 는 string을 인자로 받음. but! storage.get()의 return 값은 object
+    // => get자료형의 형태로 사용
+    var result1 = storage.getString('map') ?? 'no data';
+    print(jsonDecode(result1));
+    storage.remove('map');
   }
 
   addData(a) {
