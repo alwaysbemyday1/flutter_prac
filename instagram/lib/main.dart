@@ -195,9 +195,17 @@ class _HomeState extends State<HomeFeed> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    post['user'],
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  GestureDetector(
+                    child: Text(
+                      post['user'],
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    onTap: () {
+                      var navigator = Navigator.of(context);
+                      navigator.push(MaterialPageRoute(
+                          builder: ((context) => profile.ProfilePage())));
+                    },
                   ),
                   SizedBox(
                       child: post['image'].toString().startsWith('https')
