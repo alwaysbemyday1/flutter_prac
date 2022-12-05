@@ -85,8 +85,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(insertData: insertData),
-      body: HomeFeed(bodyHome: bodyHome, addData: addData),
+      appBar: MainAppBar(),
+      body: HomeFeed(),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -105,8 +105,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MainAppBar({super.key, this.insertData});
-  final insertData;
+  const MainAppBar({super.key});
 
   @override
   Size get preferredSize => Size.fromHeight(60.0);
@@ -127,7 +126,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 navigator.push(CupertinoPageRoute(
                     builder: ((context) => posting.PostingPage(
                           userImage: userImage,
-                          insertData: insertData,
+                          insertData: context.read<ProviderStore>().insertData,
                         ))));
               }
             },
@@ -140,9 +139,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class HomeFeed extends StatefulWidget {
-  const HomeFeed({super.key, this.bodyHome, this.addData});
-  final bodyHome;
-  final addData;
+  const HomeFeed({super.key});
 
   @override
   State<HomeFeed> createState() => _HomeState();
@@ -162,7 +159,9 @@ class _HomeState extends State<HomeFeed> {
       });
       var result2 = jsonDecode(result.body);
       print(result2);
-      await widget.addData(result2);
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Provider.of<ProviderStore>(context, listen: false).addData(result2);
+      });
     } else {
       setState(() {
         bodyHomeState = 0;
@@ -191,12 +190,13 @@ class _HomeState extends State<HomeFeed> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.bodyHome.isNotEmpty) {
+    var bodyHome = context.watch<ProviderStore>().bodyHome;
+    if (bodyHome.isNotEmpty) {
       return ListView.builder(
           controller: scroll,
-          itemCount: widget.bodyHome.length,
+          itemCount: bodyHome.length,
           itemBuilder: ((context, index) {
-            var post = widget.bodyHome[index];
+            var post = bodyHome[index];
             return Padding(
               padding: const EdgeInsets.all(5.0),
               child: Column(
