@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import './style.dart' as style;
 import './posting.dart' as posting;
 import './profile.dart' as profile;
@@ -118,7 +119,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
               if (image != null) {
                 var userImage = File(image.path);
                 print('image name : $userImage');
-                navigator.push(MaterialPageRoute(
+                navigator.push(CupertinoPageRoute(
                     builder: ((context) => posting.PostingPage(
                           userImage: userImage,
                           insertData: insertData,
@@ -204,7 +205,7 @@ class _HomeState extends State<HomeFeed> {
                     ),
                     onTap: () {
                       var navigator = Navigator.of(context);
-                      navigator.push(MaterialPageRoute(
+                      navigator.push(CupertinoPageRoute(
                           builder: ((context) => profile.ProfilePage())));
                     },
                   ),
@@ -224,7 +225,7 @@ class _HomeState extends State<HomeFeed> {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 var navigator = Navigator.of(context);
-                                navigator.push(MaterialPageRoute(
+                                navigator.push(CupertinoPageRoute(
                                     builder: ((context) =>
                                         profile.ProfilePage())));
                               },
