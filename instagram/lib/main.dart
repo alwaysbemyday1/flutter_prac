@@ -96,18 +96,17 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
             onPressed: () async {
+              final navigator = Navigator.of(context);
               var picker = ImagePicker();
               var image = await picker.pickImage(source: ImageSource.gallery);
               if (image != null) {
                 var userImage = File(image.path);
                 print('image name : $userImage');
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => posting.PostingPage(
-                              userImage: userImage,
-                              insertData: insertData,
-                            ))));
+                navigator.push(MaterialPageRoute(
+                    builder: ((context) => posting.PostingPage(
+                          userImage: userImage,
+                          insertData: insertData,
+                        ))));
               }
             },
             icon: Icon(
