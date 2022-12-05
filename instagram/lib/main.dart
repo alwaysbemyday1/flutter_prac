@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import './style.dart' as style;
 import './posting.dart' as posting;
@@ -29,7 +31,9 @@ class _MyAppState extends State<MyApp> {
 
   addData(a) {
     setState(() {
+      print(bodyHome);
       bodyHome.add(a);
+      print(bodyHome);
     });
   }
 
@@ -55,7 +59,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(),
+      appBar: MainAppBar(addData: addData),
       body: HomeFeed(bodyHome: bodyHome, addData: addData),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
@@ -75,7 +79,8 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MainAppBar({super.key});
+  const MainAppBar({super.key, this.addData});
+  final addData;
 
   @override
   Size get preferredSize => Size.fromHeight(60.0);
@@ -95,8 +100,10 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) =>
-                            posting.PostingPage(userImage: userImage))));
+                        builder: ((context) => posting.PostingPage(
+                              userImage: userImage,
+                              addData: addData,
+                            ))));
               }
             },
             icon: Icon(
@@ -174,7 +181,10 @@ class _HomeState extends State<HomeFeed> {
                     post['user'],
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  SizedBox(child: Image.network(post['image'])),
+                  SizedBox(
+                      child: post['image'].toString().startsWith('https')
+                          ? Image.network(post['image'])
+                          : Image.file(post['image'])),
                   Text('${post['likes'].toString()} likes'),
                   RichText(
                     text: TextSpan(

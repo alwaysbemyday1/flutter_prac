@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
 
 class PostingPage extends StatefulWidget {
-  const PostingPage({super.key, this.userImage});
+  const PostingPage({super.key, this.userImage, this.addData});
   final userImage;
+  final addData;
 
   @override
   State<PostingPage> createState() => _PostingPageState();
 }
 
 class _PostingPageState extends State<PostingPage> {
-  var inputImage;
+  Map postingStruct = {};
   var inputContent = '';
   var inputUser = '';
+
+  feelPostingStruct() {
+    setState(() {
+      postingStruct['id'] = 0;
+      postingStruct['image'] = widget.userImage;
+      postingStruct['likes'] = 0;
+      postingStruct['date'] = DateTime.now().toString();
+      postingStruct['content'] = inputContent;
+      postingStruct['liked'] = false;
+      postingStruct['user'] = inputUser;
+    });
+    return postingStruct;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PostingAppBar(),
+      appBar: PostingAppBar(
+          postingStruct: postingStruct,
+          feelPostingStruct: feelPostingStruct,
+          addData: widget.addData),
       body: Column(
         children: [
           SizedBox(
@@ -36,6 +53,11 @@ class _PostingPageState extends State<PostingPage> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                     child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          inputContent = value;
+                        });
+                      },
                       autofocus: true,
                       maxLines: 5,
                       decoration: InputDecoration(
@@ -57,6 +79,12 @@ class _PostingPageState extends State<PostingPage> {
             child: SizedBox(
               width: double.maxFinite,
               child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    inputUser = value;
+                  });
+                  print(inputUser);
+                },
                 maxLines: 1,
                 decoration: InputDecoration(
                   hintText: '당신의 이름을 입력해주세요.',
@@ -76,7 +104,11 @@ class _PostingPageState extends State<PostingPage> {
 }
 
 class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const PostingAppBar({super.key});
+  const PostingAppBar(
+      {super.key, this.postingStruct, this.feelPostingStruct, this.addData});
+  final postingStruct;
+  final feelPostingStruct;
+  final addData;
 
   @override
   Size get preferredSize => Size.fromHeight(60.0);
@@ -93,7 +125,12 @@ class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text('Posting'),
       actions: [
         TextButton(
-            onPressed: (() {}),
+            onPressed: (() async {
+              var result = feelPostingStruct();
+              print(result);
+              await addData(result);
+              Navigator.pop(context);
+            }),
             child: Text(
               'Complete',
               style:
