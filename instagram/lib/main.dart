@@ -13,8 +13,14 @@ import 'package:provider/provider.dart';
 import 'dart:io';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ProviderStore(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => MainProviderStore(),
+      ),
+      ChangeNotifierProvider(
+          create: ((context) => profile.ProfileProviderStore())),
+    ],
     child: MaterialApp(
       theme: style.theme,
       initialRoute: '/',
@@ -27,7 +33,7 @@ void main() {
   ));
 }
 
-class ProviderStore extends ChangeNotifier {
+class MainProviderStore extends ChangeNotifier {
   var bodyHome = [];
 
   addData(a) {
@@ -78,7 +84,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ProviderStore>(context, listen: false).getData();
+      Provider.of<MainProviderStore>(context, listen: false).getData();
     });
   }
 
@@ -126,7 +132,8 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 navigator.push(CupertinoPageRoute(
                     builder: ((context) => posting.PostingPage(
                           userImage: userImage,
-                          insertData: context.read<ProviderStore>().insertData,
+                          insertData:
+                              context.read<MainProviderStore>().insertData,
                         ))));
               }
             },
@@ -160,7 +167,7 @@ class _HomeState extends State<HomeFeed> {
       var result2 = jsonDecode(result.body);
       print(result2);
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Provider.of<ProviderStore>(context, listen: false).addData(result2);
+        Provider.of<MainProviderStore>(context, listen: false).addData(result2);
       });
     } else {
       setState(() {
@@ -190,7 +197,7 @@ class _HomeState extends State<HomeFeed> {
 
   @override
   Widget build(BuildContext context) {
-    var bodyHome = context.watch<ProviderStore>().bodyHome;
+    var bodyHome = context.watch<MainProviderStore>().bodyHome;
     if (bodyHome.isNotEmpty) {
       return ListView.builder(
           controller: scroll,
@@ -213,7 +220,7 @@ class _HomeState extends State<HomeFeed> {
                       navigator.push(PageRouteBuilder(
                         pageBuilder:
                             ((context, animation, secondaryAnimation) =>
-                                profile.ProfilePage()),
+                                profile.ProfilePage(userName: post['user'])),
                         transitionDuration: Duration(milliseconds: 250),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) =>
@@ -244,8 +251,9 @@ class _HomeState extends State<HomeFeed> {
                               ..onTap = () {
                                 var navigator = Navigator.of(context);
                                 navigator.push(CupertinoPageRoute(
-                                    builder: ((context) =>
-                                        profile.ProfilePage())));
+                                    builder: ((context) => profile.ProfilePage(
+                                          userName: post['user'],
+                                        ))));
                               },
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
