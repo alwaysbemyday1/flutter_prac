@@ -54,8 +54,13 @@ class ProfileBody extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.person_add),
-            Text('팔로워 ${watchProvider.followingNum} 명'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('팔로워 ${watchProvider.followingNum} 명'),
+            ),
+            watchProvider.followingState == false
+                ? Icon(Icons.person_add)
+                : Icon(Icons.person_remove),
             TextButton(
               child: watchProvider.followingState == false
                   ? Text('Follow')
