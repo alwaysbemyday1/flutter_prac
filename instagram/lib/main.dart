@@ -95,6 +95,11 @@ class _MyAppState extends State<MyApp> {
     return Scaffold(
       appBar: MainAppBar(),
       body: HomeFeed(),
+      floatingActionButton: FloatingActionButton(
+          child: Text('+'),
+          onPressed: () {
+            notification.showNotification();
+          }),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
