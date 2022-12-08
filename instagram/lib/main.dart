@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import './style.dart' as style;
 import './posting.dart' as posting;
 import './profile.dart' as profile;
+import './notification.dart' as notification;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
@@ -83,6 +84,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    notification.initNotifications();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<MainProviderStore>(context, listen: false).getData();
     });
