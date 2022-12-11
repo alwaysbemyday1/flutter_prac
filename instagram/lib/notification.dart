@@ -67,13 +67,7 @@ showNotification2() async {
     presentSound: true,
   );
 
-  notifications.zonedSchedule(
-      2,
-      '제목2',
-      '내용2',
-      tz.TZDateTime.now(tz.local).add(Duration(seconds: 5)),
+  notifications.periodicallyShow(2, '제목2', '내용2', RepeatInterval.daily,
       NotificationDetails(android: androidDetails, iOS: iosDetails),
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime);
+      androidAllowWhileIdle: true);
 }
