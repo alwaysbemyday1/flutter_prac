@@ -67,11 +67,25 @@ showNotification2() async {
     presentSound: true,
   );
 
-  //매주 지금 button을 클릭한 시간에 알림을 보내주는 코드
-  notifications.zonedSchedule(2, '제목2', '내용2', tz.TZDateTime.now(tz.local),
+  //notification - from local
+  //push - from server
+
+  //예약 notification 보내기
+  notifications.zonedSchedule(2, '제목2', '내용2', makeDate(8, 30, 0),
       NotificationDetails(android: androidDetails, iOS: iosDetails),
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
+}
+
+makeDate(hour, min, sec) {
+  var now = tz.TZDateTime.now(tz.local);
+  var when =
+      tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, min, sec);
+  if (when.isBefore(now)) {
+    return when.add(Duration(days: 1));
+  } else {
+    return when;
+  }
 }
