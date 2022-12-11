@@ -67,7 +67,11 @@ showNotification2() async {
     presentSound: true,
   );
 
-  notifications.periodicallyShow(2, '제목2', '내용2', RepeatInterval.daily,
+  //매주 지금 button을 클릭한 시간에 알림을 보내주는 코드
+  notifications.zonedSchedule(2, '제목2', '내용2', tz.TZDateTime.now(tz.local),
       NotificationDetails(android: androidDetails, iOS: iosDetails),
-      androidAllowWhileIdle: true);
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
 }
