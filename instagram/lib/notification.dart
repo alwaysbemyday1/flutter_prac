@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import './profile.dart' as profile;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final notifications = FlutterLocalNotificationsPlugin();
 
-initNotifications() async {
+initNotifications(context) async {
   var androidSetting = AndroidInitializationSettings('instagram');
 
   var iosSetting = DarwinInitializationSettings(
@@ -15,9 +16,16 @@ initNotifications() async {
   var initializationSettings =
       InitializationSettings(android: androidSetting, iOS: iosSetting);
 
-  await notifications.initialize(initializationSettings);
-
-  await notifications.initialize(initializationSettings);
+  await notifications.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse: (details) {
+      print(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => profile.ProfilePage(userName: 'day')));
+    },
+  );
 }
 
 //2. 이 함수 원하는 곳에서 실행하면 알림 뜸
@@ -37,6 +45,6 @@ showNotification() async {
   );
 
   // 알림 id, 제목, 내용 맘대로 채우기
-  notifications.show(1, '제목1', '내용1',
+  notifications.show(1, 'Instagram', 'Move to day\'s profile.',
       NotificationDetails(android: androidDetails, iOS: iosDetails));
 }

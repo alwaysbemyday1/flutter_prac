@@ -84,7 +84,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    notification.initNotifications();
+    print(context);
+    notification.initNotifications(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<MainProviderStore>(context, listen: false).getData();
     });
