@@ -99,7 +99,7 @@ class _MyAppState extends State<MyApp> {
       floatingActionButton: FloatingActionButton(
           child: Text('+'),
           onPressed: () {
-            notification.showNotification();
+            notification.showNotification2();
           }),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
