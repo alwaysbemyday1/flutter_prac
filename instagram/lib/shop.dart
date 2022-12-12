@@ -22,13 +22,13 @@ class _ShopState extends State<Shop> {
   }
 
   addData() async {
-    try {
-      await firestore
-          .collection('product')
-          .add({'category': 'shoes', 'brand': 'nike', 'price': 180000});
-    } catch (e) {
-      print(e);
-    }
+    firestore
+        .collection('product')
+        .add({'category': 'underwear', 'brand': 'calvin klein', 'price': 30000})
+        .then((value) => print('succed'))
+        .catchError((var error) {
+          print(error);
+        });
   }
 
   @override
