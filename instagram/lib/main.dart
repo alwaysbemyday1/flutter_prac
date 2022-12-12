@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import './style.dart' as style;
 import './posting.dart' as posting;
 import './profile.dart' as profile;
+import './shop.dart' as shop;
 import './notification.dart' as notification;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -103,7 +104,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(),
-      body: [HomeFeed(), Text('Shop')][tab],
+      body: [HomeFeed(), shop.Shop()][tab],
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
