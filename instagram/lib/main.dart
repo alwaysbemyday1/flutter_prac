@@ -73,6 +73,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var tab = 0;
+
   saveData(data) async {
     var storage = await SharedPreferences.getInstance();
 
@@ -101,15 +103,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(),
-      body: HomeFeed(),
-      floatingActionButton: FloatingActionButton(
-          child: Text('+'),
-          onPressed: () {
-            notification.showNotification2();
-          }),
+      body: [HomeFeed(), Text('Shop')][tab],
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        onTap: (i) {
+          setState(() {
+            tab = i;
+          });
+        },
         items: [
           BottomNavigationBarItem(
               icon: Icon(
@@ -120,6 +122,11 @@ class _MyAppState extends State<MyApp> {
               icon: Icon(Icons.shopping_bag_outlined), label: 'Shopping'),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          child: Text('+'),
+          onPressed: () {
+            notification.showNotification2();
+          }),
     );
   }
 }
