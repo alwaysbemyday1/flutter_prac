@@ -21,14 +21,10 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
-plugins {
-  id 'com.android.application'
-  id 'kotlin-android'
-  // Add the Google services Gradle plugin
-  id 'com.google.gms.google-services'
-}
 
 android {
     compileSdkVersion 33
@@ -77,6 +73,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation platform('com.google.firebase:firebase-bom:31.1.1')
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
