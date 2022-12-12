@@ -12,7 +12,10 @@ class Shop extends StatefulWidget {
 
 class _ShopState extends State<Shop> {
   getData() async {
-    var result = await firestore.collection('product').get();
+    var result = await firestore
+        .collection('product')
+        .where('price', isLessThan: 90000)
+        .get();
     for (var doc in result.docs) {
       print(doc['brand']);
     }
