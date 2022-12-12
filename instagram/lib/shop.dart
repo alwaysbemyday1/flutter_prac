@@ -12,9 +12,10 @@ class Shop extends StatefulWidget {
 
 class _ShopState extends State<Shop> {
   getData() async {
-    var result =
-        await firestore.collection('product').doc('dyIp2wxEepvwMgvnDsFF').get();
-    print(result.get('brand'));
+    var result = await firestore.collection('product').get();
+    for (var doc in result.docs) {
+      print(doc['brand']);
+    }
   }
 
   @override
