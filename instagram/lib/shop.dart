@@ -14,11 +14,17 @@ class _ShopState extends State<Shop> {
   getData() async {
     var result = await firestore
         .collection('product')
-        .where('price', isLessThan: 90000)
+        .where('price', isGreaterThan: 90000)
         .get();
     for (var doc in result.docs) {
       print(doc['brand']);
     }
+  }
+
+  addData() async {
+    await firestore
+        .collection('product')
+        .add({'category': 'shoes', 'brand': 'nike', 'price': 180000});
   }
 
   @override
