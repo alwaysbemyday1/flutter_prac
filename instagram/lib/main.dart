@@ -59,11 +59,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: const TabPage(),
-      floatingActionButton: FloatingActionButton(
-          child: Text('+'),
-          onPressed: () {
-            notification.showNotification2();
-          }),
     );
   }
 }
