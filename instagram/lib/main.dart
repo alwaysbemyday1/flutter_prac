@@ -3,11 +3,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:instagram/tabs/tab_page.dart';
 import './style.dart' as style;
-import './posting.dart' as posting;
-import './profile.dart' as profile;
-import './shop.dart' as shop;
-import './login.dart' as login;
+import 'tabs/feed/posting_page.dart' as posting;
+import 'tabs/feed/profile_page.dart' as profile;
+import 'tabs/shopping/shopping_page.dart' as shop;
+import 'tabs/account/login_page.dart' as login;
 import './notification.dart' as notification;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -71,7 +72,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     Future.delayed(const Duration(milliseconds: 100), () {
       if (auth.currentUser?.uid == null) {
-        
         Get.off(() => const login.LoginPage());
       } else {
         print('logined');
@@ -88,25 +88,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(),
-      body: [HomeFeed(), shop.Shop()][tab],
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: (i) {
-          setState(() {
-            tab = i;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home_outlined,
-              ),
-              label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_bag_outlined), label: 'Shopping'),
-        ],
-      ),
+      body: const TabPage(),
       floatingActionButton: FloatingActionButton(
           child: Text('+'),
           onPressed: () {
