@@ -1,5 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:instagram/tabs/account/account_model.dart';
 import 'package:provider/provider.dart';
+
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key, this.userName});
+  final userName;
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final model = AccountModel();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Instagram'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              model.logout();
+            },
+            icon: const Icon(Icons.exit_to_app),
+          ),
+        ],
+      ),
+      body: ProfileBody(),
+    );
+  }
+}
 
 class ProfileProviderStore extends ChangeNotifier {
   bool followingState = false;
@@ -18,68 +54,8 @@ class ProfileProviderStore extends ChangeNotifier {
   }
 }
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, this.userName});
-  final userName;
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.userName),
-      ),
-      body: ProfileBody(),
-    );
-  }
-}
-
 class ProfileBody extends StatelessWidget {
   const ProfileBody({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    var readProvider = context.read<ProfileProviderStore>();
-    var watchProvider = context.watch<ProfileProviderStore>();
-    return ListView(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            watchProvider.followingState == false
-                ? Icon(Icons.person_add)
-                : Icon(Icons.person_remove),
-            Text('팔로워 ${watchProvider.followingNum} 명'),
-            TextButton(
-              child: watchProvider.followingState == false
-                  ? Text('Follow')
-                  : Text('Following'),
-              onPressed: () {
-                if (watchProvider.followingState == false) {
-                  readProvider.startFollowing();
-                } else {
-                  readProvider.stopFollowing();
-                }
-              },
-            )
-          ],
-        )
-      ],
-    );
-  }
-}
-
-class Profile extends StatelessWidget {
-  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
