@@ -6,7 +6,7 @@ import 'package:instagram/tabs/feed/feed_page.dart' as feed;
 import 'package:instagram/tabs/tab_page.dart';
 import './style.dart' as style;
 import 'tabs/feed/posting_page.dart' as posting;
-import 'tabs/feed/profile_page.dart' as profile;
+import 'tabs/account/profile_page.dart' as profile;
 import './notification.dart' as notification;
 import 'firebase_options.dart';
 

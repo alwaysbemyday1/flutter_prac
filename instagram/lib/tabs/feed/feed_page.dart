@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:instagram/tabs/feed/profile_page.dart';
+import 'package:instagram/tabs/account/profile_page.dart';
 import './feed_appbar.dart';
 
 class FeedPage extends StatelessWidget {

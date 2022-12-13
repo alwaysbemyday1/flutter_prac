@@ -33,6 +33,9 @@ class _LoginState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Text('login');
+    return Scaffold(
+      appBar: AppBar(title: Text('Instagram')),
+      body: Text('login plz'),
+    );
   }
 }
