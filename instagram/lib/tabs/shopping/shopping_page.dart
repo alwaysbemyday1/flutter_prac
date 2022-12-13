@@ -3,14 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final firestore = FirebaseFirestore.instance;
 
-class Shop extends StatefulWidget {
-  const Shop({super.key});
+class ShoppingPage extends StatefulWidget {
+  const ShoppingPage({super.key});
 
   @override
-  State<Shop> createState() => _ShopState();
+  State<ShoppingPage> createState() => _ShoppingPageState();
 }
 
-class _ShopState extends State<Shop> {
+class _ShoppingPageState extends State<ShoppingPage> {
   getData() async {
     var result = await firestore
         .collection('product')
@@ -39,6 +39,6 @@ class _ShopState extends State<Shop> {
 
   @override
   Widget build(BuildContext context) {
-    return Text('shopping tab');
+    return Text('Shopping tab');
   }
 }
