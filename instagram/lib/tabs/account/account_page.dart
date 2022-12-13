@@ -11,10 +11,10 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Builder(builder: ((context) {
-      if (auth.currentUser?.uid == null) {
-        return LoginPage();
-      } else {
+      if (auth.currentUser?.uid != null) {
         return ProfilePage();
+      } else {
+        return LoginPage();
       }
     })));
   }

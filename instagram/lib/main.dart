@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:instagram/tabs/feed/posting_page.dart';
 import 'package:provider/provider.dart';
+import 'package:instagram/auth/auth_gate.dart';
 import 'package:instagram/tabs/feed/feed_page.dart' as feed;
-import 'package:instagram/tabs/tab_page.dart';
 import './style.dart' as style;
-import 'tabs/feed/posting_page.dart' as posting;
 import 'tabs/account/profile_page.dart' as profile;
 import './notification.dart' as notification;
 import 'firebase_options.dart';
@@ -28,7 +28,7 @@ void main() async {
       initialRoute: '/',
       routes: {
         '/': (context) => MyApp(),
-        '/posting': (context) => posting.PostingPage(),
+        '/posting': (context) => PostingPage(),
         '/profile': (context) => profile.ProfilePage()
       },
     ),
@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const TabPage(),
+      body: const AuthGate(),
     );
   }
 }

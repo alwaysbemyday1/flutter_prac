@@ -21,12 +21,10 @@ class FeedAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
             onPressed: () async {
-              if (userId == null) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => const CreatingPage())));
-              }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => const CreatingPage())));
             },
             icon: Icon(
               Icons.add_box_outlined,
