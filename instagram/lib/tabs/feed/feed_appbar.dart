@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instagram/tabs/feed/creating_page.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,20 +21,11 @@ class FeedAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
             onPressed: () async {
-              if (userId != null) {
-                final navigator = Navigator.of(context);
-                var picker = ImagePicker();
-                var image = await picker.pickImage(source: ImageSource.gallery);
-                if (image != null) {
-                  var userImage = File(image.path);
-                  navigator.push(CupertinoPageRoute(
-                      builder: ((context) => posting.PostingPage(
-                            userImage: userImage,
-                            insertData: context
-                                .read<feed.MainProviderStore>()
-                                .insertData,
-                          ))));
-                }
+              if (userId == null) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => const CreatingPage())));
               }
             },
             icon: Icon(
