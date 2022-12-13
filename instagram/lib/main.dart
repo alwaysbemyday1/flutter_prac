@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:instagram/tabs/feed/posting_page.dart';
 import 'package:provider/provider.dart';
 import 'package:instagram/auth/auth_gate.dart';
 import 'package:instagram/tabs/feed/feed_page.dart' as feed;
@@ -25,6 +26,11 @@ void main() async {
     child: MaterialApp(
       theme: style.theme,
       initialRoute: '/',
+      routes: {
+        '/': (context) => MyApp(),
+        '/posting': (context) => PostingPage(),
+        '/profile': (context) => profile.ProfilePage()
+      },
     ),
   ));
 }
