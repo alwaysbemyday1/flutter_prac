@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram/tabs/feed/creating_page.dart';
+import 'package:instagram/tabs/posting/creating_page.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
