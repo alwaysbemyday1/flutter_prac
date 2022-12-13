@@ -2,10 +2,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import './style.dart' as style;
 import './posting.dart' as posting;
 import './profile.dart' as profile;
 import './shop.dart' as shop;
+import './login.dart' as login;
 import './notification.dart' as notification;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,7 +16,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
+
+final auth = FirebaseAuth.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,32 +46,6 @@ void main() async {
   ));
 }
 
-class MainProviderStore extends ChangeNotifier {
-  var bodyHome = [];
-
-  addData(a) {
-    bodyHome.add(a);
-    notifyListeners();
-  }
-
-  insertData(a) {
-    bodyHome.insert(0, a);
-    notifyListeners();
-  }
-
-  getData() async {
-    var response = await http
-        .get(Uri.parse('https://codingapple1.github.io/app/data.json'));
-    if (response.statusCode == 200) {
-      print('HTTP get success ✅');
-      bodyHome = jsonDecode(response.body);
-    } else {
-      print('HTTP got error ❌');
-    }
-    notifyListeners();
-  }
-}
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
   @override
@@ -81,10 +60,7 @@ class _MyAppState extends State<MyApp> {
 
     var map = data;
     storage.setString('map', jsonEncode(map));
-    // var result = storage.get('map');
-    // print(jsonDecode(result));
-    // jsonDecode() 는 string을 인자로 받음. but! storage.get()의 return 값은 object
-    // => get자료형의 형태로 사용
+
     var result1 = storage.getString('map') ?? 'no data';
     print(jsonDecode(result1));
     storage.remove('map');
@@ -93,10 +69,18 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    print(context);
-    notification.initNotifications(context);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<MainProviderStore>(context, listen: false).getData();
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (auth.currentUser?.uid == null) {
+        
+        Get.off(() => const login.LoginPage());
+      } else {
+        print('logined');
+
+        notification.initNotifications(context);
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          Provider.of<MainProviderStore>(context, listen: false).getData();
+        });
+      }
     });
   }
 
@@ -129,6 +113,32 @@ class _MyAppState extends State<MyApp> {
             notification.showNotification2();
           }),
     );
+  }
+}
+
+class MainProviderStore extends ChangeNotifier {
+  var bodyHome = [];
+
+  addData(a) {
+    bodyHome.add(a);
+    notifyListeners();
+  }
+
+  insertData(a) {
+    bodyHome.insert(0, a);
+    notifyListeners();
+  }
+
+  getData() async {
+    var response = await http
+        .get(Uri.parse('https://codingapple1.github.io/app/data.json'));
+    if (response.statusCode == 200) {
+      print('HTTP get success ✅');
+      bodyHome = jsonDecode(response.body);
+    } else {
+      print('HTTP got error ❌');
+    }
+    notifyListeners();
   }
 }
 
