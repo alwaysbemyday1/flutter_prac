@@ -25,12 +25,7 @@ void main() async {
     ],
     child: MaterialApp(
       theme: style.theme,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => MyApp(),
-        '/posting': (context) => PostingPage(),
-        '/profile': (context) => profile.ProfilePage()
-      },
+      home: MyApp(),
     ),
   ));
 }

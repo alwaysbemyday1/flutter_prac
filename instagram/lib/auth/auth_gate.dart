@@ -13,13 +13,22 @@ class AuthGate extends StatelessWidget {
       builder: (context, snapshot) {
         // User is not signed in
         if (!snapshot.hasData) {
-          return const SignInScreen(providerConfigs: [
-            EmailProviderConfiguration(),
-          ]);
+          return SignInScreen(
+              providerConfigs: const [
+                EmailProviderConfiguration(),
+              ],
+              headerBuilder: (context, constraints, _) {
+                return const Center(
+                  child: Text(
+                    'Instagram',
+                    style: TextStyle(fontSize: 40),
+                  ),
+                );
+              });
+        } else {
+          // Render your application if authenticated
+          return const TabPage();
         }
-
-        // Render your application if authenticated
-        return const TabPage();
       },
     );
   }
