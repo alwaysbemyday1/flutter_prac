@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'package:instagram/tabs/account/account_page.dart';
 import 'package:instagram/tabs/feed/feed_page.dart';
 import 'package:instagram/tabs/searching/searching_page.dart';
@@ -17,7 +18,13 @@ class _TabPageState extends State<TabPage> {
     FeedPage(),
     SearchingPage(),
     ShoppingPage(),
-    AccountPage()
+    AccountPage(),
+    ProfileScreen(
+      providerConfigs: [
+        EmailProviderConfiguration(),
+      ],
+      avatarSize: 24,
+    ),
   ];
 
   @override
@@ -25,6 +32,7 @@ class _TabPageState extends State<TabPage> {
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
@@ -39,6 +47,10 @@ class _TabPageState extends State<TabPage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_bag), label: 'shopping_bag'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'person'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
+            label: 'Profile',
+          ),
         ],
       ),
     );
