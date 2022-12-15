@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instagram/tabs/feed/feed_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +20,7 @@ class FeedPage extends StatelessWidget {
         userId: auth.currentUser?.uid,
       ),
       body: Builder(builder: ((context) {
-        if (auth.currentUser?.uid == null) {
+        if (auth.currentUser?.uid != null) {
           print('가입해요');
           return GuidingBody();
         } else {
@@ -214,6 +215,7 @@ class GuidingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = HomeModel();
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -232,20 +234,19 @@ class GuidingBody extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 80,
                     height: 80,
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg'),
+                      backgroundImage: NetworkImage(model.getProfileImageUrl()),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'dlwldms',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Text(
+                    model.getEmail(),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const Text('닉네임'),
+                  Text(model.getNickName()),
                   const SizedBox(height: 8),
                   Row(
                     mainAxisSize: MainAxisSize.min,

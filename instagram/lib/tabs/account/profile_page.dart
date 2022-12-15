@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/tabs/account/account_model.dart';
+import 'package:instagram/tabs/account/profile_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -59,6 +59,7 @@ class ProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = AccountModel();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -68,12 +69,11 @@ class ProfileBody extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 80,
                     height: 80,
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://pbs.twimg.com/profile_images/1374979417915547648/vKspl9Et_400x400.jpg'),
+                      backgroundImage: NetworkImage(model.getProfileImageUrl()),
                     ),
                   ),
                   Container(
@@ -105,8 +105,8 @@ class ProfileBody extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              const Text(
-                '아이유',
+              Text(
+                model.getNickName(),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
