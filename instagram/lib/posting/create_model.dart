@@ -24,8 +24,10 @@ class CreateModel {
               fromFirestore: (snapshot, _) => Post.fromJson(snapshot.data()!),
               toFirestore: (post, _) => post.toJson(),
             );
+final newPostRef = postsRef.doc();
 
-    postsRef.add(Post(
+    newPostRef.set(Post(
+      id: newPostRef.id,
       userId: FirebaseAuth.instance.currentUser?.uid ?? '',
       title: title,
       imageUrl:
