@@ -36,7 +36,7 @@ class _CreatingPageState extends State<CreatingPage> {
                 setState(() {
                   isLoading = true;
                 });
-
+                
                 await model.uploadPost(
                   _titleTextController.text,
                   _image!,
@@ -87,10 +87,10 @@ class _CreatingPageState extends State<CreatingPage> {
                   _image!,
                   width: 300,
                 ),
-              Image.network(
-                'http://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/01/05/0vU4v7vCfjju637769738893922804.jpg',
-                width: 300,
-              ),
+              // Image.network(
+              //   'http://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/01/05/0vU4v7vCfjju637769738893922804.jpg',
+              //   width: 300,
+              // ),
             ],
           ),
         ),
