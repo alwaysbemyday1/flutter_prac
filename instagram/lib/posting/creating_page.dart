@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:instagram/tabs/posting/create_model.dart';
+import 'package:instagram/posting/create_model.dart';
 
 class CreatingPage extends StatefulWidget {
   const CreatingPage({Key? key}) : super(key: key);
@@ -12,8 +12,17 @@ class CreatingPage extends StatefulWidget {
 
 class _CreatingPageState extends State<CreatingPage> {
   final model = CreateModel();
+  final _titleTextController = TextEditingController();
 
   File? _image;
+
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    _titleTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +31,26 @@ class _CreatingPageState extends State<CreatingPage> {
         title: const Text('새 게시물'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              if (_image != null && _titleTextController.text.isNotEmpty) {
+                setState(() {
+                  isLoading = true;
+                });
+
+                await model.uploadPost(
+                  _titleTextController.text,
+                  _image!,
+                );
+
+                setState(() {
+                  isLoading = false;
+                });
+
+                if (mounted) {
+                  Navigator.pop(context);
+                }
+              }
+            },
             icon: const Icon(Icons.send),
           ),
         ],
@@ -33,6 +61,7 @@ class _CreatingPageState extends State<CreatingPage> {
           child: Column(
             children: [
               TextField(
+                controller: _titleTextController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
@@ -43,6 +72,7 @@ class _CreatingPageState extends State<CreatingPage> {
                     fillColor: Colors.white70),
               ),
               const SizedBox(height: 20),
+              if (isLoading) const CircularProgressIndicator(),
               ElevatedButton(
                 onPressed: () async {
                   _image = await model.getImage();

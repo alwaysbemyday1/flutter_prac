@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram/domain/post.dart';
+import 'package:instagram/tabs/searching/searching_model.dart';
 
 class SearchingPage extends StatelessWidget {
   const SearchingPage({super.key});
@@ -13,37 +15,49 @@ class SearchingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = SearchModel();
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.create),
       ),
       body: SafeArea(
-          child: CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.all(5.0),
-            sliver: SliverToBoxAdapter(
-              child: CupertinoSearchTextField(style: TextStyle(fontSize: 18)),
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(2),
+          child: StreamBuilder(
+            stream: model.postsStream,
+            builder: (context, snapshot) {
+              List<Post> posts =
+                  snapshot.data!.docs.map((e) => e.data()).toList();
+
+              if (snapshot.hasError) {
+                return const Text('알 수 없는 에러');
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              return GridView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    final post = posts[index];
+                    return Image.network(
+                      post.imageUrl,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 2.0,
+                    crossAxisSpacing: 2.0,
+                  ));
+            },
           ),
-          SliverGrid(
-            delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
-              final url = _urls[index];
-              return Image.network(
-                url,
-                fit: BoxFit.cover,
-              );
-            }, childCount: _urls.length),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: 2.0,
-              crossAxisSpacing: 2.0,
-            ),
-          )
-        ],
-      )),
+        ),
+      ),
     );
   }
 }
