@@ -28,9 +28,6 @@ class SearchingPage extends StatelessWidget {
           child: StreamBuilder(
             stream: model.postsStream,
             builder: (context, snapshot) {
-              List<Post> posts =
-                  snapshot.data!.docs.map((e) => e.data()).toList();
-
               if (snapshot.hasError) {
                 return const Text('알 수 없는 에러');
               }
@@ -39,6 +36,8 @@ class SearchingPage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               }
+              var data = snapshot.data;
+              List<Post> posts = data!.docs.map((e) => e.data()).toList();
 
               return GridView.builder(
                   itemCount: posts.length,
