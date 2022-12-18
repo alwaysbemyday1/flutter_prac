@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram/detail_posting/detail_posting_page.dart';
 import 'package:instagram/domain/post.dart';
 import 'package:instagram/tabs/searching/searching_model.dart';
 
@@ -43,9 +44,18 @@ class SearchingPage extends StatelessWidget {
                   itemCount: posts.length,
                   itemBuilder: (context, index) {
                     final post = posts[index];
-                    return Image.network(
-                      post.imageUrl,
-                      fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailPostPage(post: post)),
+                        );
+                      },
+                      child: Image.network(
+                        post.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
                     );
                   },
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
