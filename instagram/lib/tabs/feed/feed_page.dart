@@ -10,9 +10,14 @@ import 'package:http/http.dart' as http;
 import 'package:instagram/tabs/account/profile_page.dart';
 import './feed_appbar.dart';
 
-class FeedPage extends StatelessWidget {
+class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);
 
+  @override
+  State<FeedPage> createState() => _FeedPageState();
+}
+
+class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -210,9 +215,14 @@ class _MainBodyState extends State<MainBody> {
   }
 }
 
-class GuidingBody extends StatelessWidget {
+class GuidingBody extends StatefulWidget {
   const GuidingBody({super.key});
 
+  @override
+  State<GuidingBody> createState() => _GuidingBodyState();
+}
+
+class _GuidingBodyState extends State<GuidingBody> {
   @override
   Widget build(BuildContext context) {
     final model = HomeModel();
@@ -237,8 +247,15 @@ class GuidingBody extends StatelessWidget {
                   SizedBox(
                     width: 80,
                     height: 80,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(model.getProfileImageUrl()),
+                    child: GestureDetector(
+                      onTap: () async {
+                        await model.updateProfileImage();
+                        setState(() {});
+                      },
+                      child: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(model.getProfileImageUrl()),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
